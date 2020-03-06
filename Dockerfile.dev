@@ -1,0 +1,17 @@
+# Build stage 0
+FROM erlang:22.2.8-alpine
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN apk add --no-cache git make curl
+
+# Install base packages
+RUN apk update
+RUN apk add ca-certificates && update-ca-certificates
+# Change TimeZone
+RUN apk add --update tzdata
+ENV TZ=Asia/Shanghai
+# Clean APK cache
+RUN rm -rf /var/cache/apk/*
+
+WORKDIR /home
+
+CMD ["/bin/sh"]
